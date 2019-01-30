@@ -47,7 +47,7 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
 RUN "date"
 
-RUN pecl install memcache-3.0.6 && docker-php-ext-enable memcache
+RUN pecl install memcached  && docker-php-ext-enable memcached
 
 # Type docker-php-ext-install to see available extensions
 RUN docker-php-ext-install pdo pdo_mysql
