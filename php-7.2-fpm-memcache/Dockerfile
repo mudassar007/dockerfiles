@@ -47,7 +47,21 @@ RUN rm /etc/localtime
 RUN ln -s /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime
 RUN "date"
 
-RUN pecl install memcached  && docker-php-ext-enable memcached
+#RUN pecl install memcached  && docker-php-ext-enable memcached
+# Install memcache extension
+RUN set -x \
+    && apt-get update && apt-get install -y --no-install-recommends unzip libssl-dev libpcre3 libpcre3-dev \
+    && cd /tmp \
+    && curl -sSL -o php7.zip https://github.com/websupport-sk/pecl-memcache/archive/php7.zip \
+    && unzip php7 \
+    && cd pecl-memcache-php7 \
+    && /usr/local/bin/phpize \
+    && ./configure --with-php-config=/usr/local/bin/php-config \
+    && make \
+    && make install \
+    && echo "extension=memcache.so" > /usr/local/etc/php/conf.d/ext-memcache.ini \
+    && rm -rf /tmp/pecl-memcache-php7 php7.zip
+    
 
 # Type docker-php-ext-install to see available extensions
 RUN docker-php-ext-install pdo pdo_mysql
