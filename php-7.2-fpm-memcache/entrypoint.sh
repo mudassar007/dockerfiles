@@ -36,7 +36,8 @@ if [ -n "$ENABLE_XDEBUG_FORCEHOST" ]; then
 fi
 if [ -n "$ENABLE_MEMCACHE" ]; then
 	RUN apt-get update \
-  	&& apt-get install -y php5-memcached \
+  	&& apt-get install -y php-memcached \
+        && apt-get install -y libmemcached-devel \
   	&& apt-get install -y build-essential memcached php-pear
 fi
 
